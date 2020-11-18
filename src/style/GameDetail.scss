@@ -1,0 +1,35 @@
+.game-detail {
+  border: solid red 1px;
+  width: 400px;
+  height: 320px;
+  margin: 40px 15px 0;
+  padding: 15px;
+}
+.game-type {
+  font-size: 25px;
+  margin-top: -10px;
+}
+
+.game-image {
+  width: 330px;
+  height: 150px;
+  border: solid black 1px;
+  object-fit: cover;
+  margin: 5px;
+}
+
+.game-text {
+  margin: 2px;
+  font-size: 18px;
+}
+
+.date-created {
+  color: gray;
+  font-size: 13px;
+  margin: 0;
+}
+
+.people-icon {
+  font-size: 20px;
+  margin: -5px 10px 0 0;
+}
