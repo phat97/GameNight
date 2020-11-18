@@ -1,0 +1,30 @@
+.dropdown-toggle:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.dropdown-toggle:hover {
+  color: blue;
+}
+
+.dropdown-menu {
+  min-width: 150px;
+  padding: 0;
+}
+
+.dropdown-item {
+  text-align: center;
+  border-bottom: gainsboro 1px solid;
+}
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:active {
+  background-color: inherit;
+  color: inherit;
+}
+
+.filter-row {
+  margin-left: 0;
+}
