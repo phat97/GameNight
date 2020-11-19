@@ -9,7 +9,7 @@ export const GameDetail = (props) => {
   let date = props.date;
   const type_icon = props.type === game_type.ONLINE ? <FaGlobe /> : <FaHome />;
   return (
-    <div className="game-detail">
+    <div className={`game-detail ${props.own ? "shadow-blue" : "shadow-red"}`}>
       <div className="d-flex flex-row justify-content-between">
         <h4 className="game-title">{props.title}</h4>
         <div className="game-type">{type_icon}</div>

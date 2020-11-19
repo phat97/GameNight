@@ -4,8 +4,16 @@
   height: 320px;
   margin: 40px 15px 0;
   padding: 15px;
-  box-shadow: gray 2px 1px 5px;
 }
+
+.shadow-blue {
+  box-shadow: darkblue 2px 1px 7px;
+}
+
+.shadow-red {
+  box-shadow: darkred 2px 1px 7px;
+}
+
 .game-type {
   font-size: 25px;
   margin-top: -10px;
