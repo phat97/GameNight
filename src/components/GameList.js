@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 
 export const GameList = () => {
   let test_date = new Date("2015-03-25");
+
   return (
     <Container fluid className="game-list d-flex justify-content-around">
       <GameDetail
@@ -15,7 +16,7 @@ export const GameList = () => {
         own={true}
         cost={0}
         date={test_date}
-        player={4}
+        players={"4-8"}
       />
       <GameDetail
         title="Among Us"
@@ -25,7 +26,7 @@ export const GameList = () => {
         own={false}
         cost={0}
         date={test_date}
-        player={4}
+        players={"4-8"}
       />
       <GameDetail
         title="Among Us"
@@ -35,7 +36,7 @@ export const GameList = () => {
         own={false}
         cost={0}
         date={test_date}
-        player={4}
+        players={"4-8"}
       />
       <GameDetail
         title="Among Us"
@@ -45,7 +46,7 @@ export const GameList = () => {
         own={false}
         cost={0}
         date={test_date}
-        player={4}
+        players={"4-8"}
       />
       <GameDetail
         title="Among Us"
@@ -55,7 +56,7 @@ export const GameList = () => {
         own={false}
         cost={0}
         date={test_date}
-        player={4}
+        players={"4-8"}
       />
     </Container>
   );

@@ -3,13 +3,9 @@ import "../style/EditOverlay.scss";
 import { FaEdit } from "react-icons/fa";
 
 export const EditOverlay = (props) => {
-  const test = () => {
-    console.log("Mouse Click Overlay");
-  };
-
   if (props.active) {
     return (
-      <div id="overlay" onClick={test}>
+      <div id="overlay" onClick={props.enableEditForm}>
         <p className="overlay-edit-icon">
           <FaEdit />
         </p>
