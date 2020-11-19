@@ -1,5 +1,5 @@
 import React from "react";
-import { EditGameDetail } from "./EditGameDetail";
+import { GameDetailForm } from "./GameDetailForm";
 import "../style/GameDetail.scss";
 import { game_type } from "../constants/Contant.js";
 import { FaGlobe, FaHome } from "react-icons/fa";
@@ -18,7 +18,7 @@ export const GameDetail = (props) => {
       <div className="d-flex flex-row justify-content-center">
         <img className="game-image" src={process.env.PUBLIC_URL + props.image} alt={props.title} />
       </div>
-      <p className="game-text">{props.own ? `Owned by: ${props.name}` : `Who owns this?`}</p>
+      <p className="game-text">{props.own ? `Owned by: ${props.name}` : `Anyone own this?`}</p>
       <p className="game-text">
         Cost: <b>{props.cost > 0 ? props.cost : "Free"}</b>
       </p>

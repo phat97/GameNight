@@ -12,6 +12,46 @@ export const GameList = () => {
         type="online"
         image="/images/among_us.jpg"
         name="User1"
+        own={true}
+        cost={0}
+        date={test_date}
+        player={4}
+      />
+      <GameDetail
+        title="Among Us"
+        type="online"
+        image="/images/among_us.jpg"
+        name="User1"
+        own={false}
+        cost={0}
+        date={test_date}
+        player={4}
+      />
+      <GameDetail
+        title="Among Us"
+        type="online"
+        image="/images/among_us.jpg"
+        name="User1"
+        own={false}
+        cost={0}
+        date={test_date}
+        player={4}
+      />
+      <GameDetail
+        title="Among Us"
+        type="online"
+        image="/images/among_us.jpg"
+        name="User1"
+        own={false}
+        cost={0}
+        date={test_date}
+        player={4}
+      />
+      <GameDetail
+        title="Among Us"
+        type="online"
+        image="/images/among_us.jpg"
+        name="User1"
         own={false}
         cost={0}
         date={test_date}

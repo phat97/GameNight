@@ -1,11 +1,11 @@
 import React from "react";
-import { EditGameDetail } from "./EditGameDetail";
+import { GameDetailForm } from "./GameDetailForm";
 
 export const ToggleAdd = () => {
   return (
     <div>
       ToggleAdd
-      <EditGameDetail />
+      <GameDetailForm />
     </div>
   );
 };

@@ -2,14 +2,13 @@ import React from "react";
 import "../style/Filter.scss";
 import Dropdown from "react-bootstrap/Dropdown";
 import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 
 export const Filter = () => {
   let sortByItem = "Players";
   let sortByType = "Online";
   let sortByStatus = "Owned";
   return (
-    <Row className="filter-row">
+    <div className="filter-row d-flex flex-row">
       <Col xs lg="auto">
         <Dropdown>
           <Dropdown.Toggle variant="none" id="dropdown-basic">
@@ -47,6 +46,6 @@ export const Filter = () => {
           </Dropdown.Menu>
         </Dropdown>
       </Col>
-    </Row>
+    </div>
   );
 };
