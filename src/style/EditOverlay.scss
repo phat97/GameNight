@@ -1,0 +1,20 @@
+#overlay {
+  position: absolute;
+  display: block;
+  width: inherit;
+  height: inherit;
+  background-color: rgba(0, 11, 112, 0.1);
+  z-index: 2;
+  cursor: pointer;
+  margin: -15px;
+}
+
+.overlay-edit-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: white;
+  font-size: 80px;
+  transform: translate(-40%, -80%);
+  -ms-transform: translate(-40%, -80%);
+}
