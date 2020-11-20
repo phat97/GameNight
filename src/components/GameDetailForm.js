@@ -114,7 +114,7 @@ export const GameDetailForm = (props) => {
             onChange={handlePlayers}
           />
         </label>
-        <div className="d-flex flex-row justify-content-center">
+        <div className="d-flex flex-row btn-container">
           <button className="form-btn submit-btn" type="submit">
             Submit
           </button>

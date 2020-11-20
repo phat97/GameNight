@@ -1,5 +1,5 @@
 import React from "react";
-import { GameDetail } from "./GameDetail";
+import { EditableGameDetail } from "./EditableGameDetail";
 import "../style/GameList.scss";
 import Container from "react-bootstrap/Container";
 
@@ -8,7 +8,7 @@ export const GameList = () => {
 
   return (
     <Container fluid className="game-list d-flex justify-content-around">
-      <GameDetail
+      <EditableGameDetail
         title="Among Us"
         type="online"
         image="/images/among_us.jpg"
@@ -18,7 +18,7 @@ export const GameList = () => {
         date={test_date}
         players={"4-8"}
       />
-      <GameDetail
+      <EditableGameDetail
         title="Among Us"
         type="online"
         image="/images/among_us.jpg"
@@ -28,7 +28,7 @@ export const GameList = () => {
         date={test_date}
         players={"4-8"}
       />
-      <GameDetail
+      <EditableGameDetail
         title="Among Us"
         type="online"
         image="/images/among_us.jpg"
@@ -38,7 +38,7 @@ export const GameList = () => {
         date={test_date}
         players={"4-8"}
       />
-      <GameDetail
+      <EditableGameDetail
         title="Among Us"
         type="online"
         image="/images/among_us.jpg"
@@ -48,7 +48,7 @@ export const GameList = () => {
         date={test_date}
         players={"4-8"}
       />
-      <GameDetail
+      <EditableGameDetail
         title="Among Us"
         type="online"
         image="/images/among_us.jpg"
