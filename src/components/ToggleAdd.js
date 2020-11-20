@@ -1,11 +1,11 @@
 import React from "react";
-import { GameDetailForm } from "./GameDetailForm";
+import { GrAddCircle } from "react-icons/gr";
+import "../style/ToggleAdd.scss";
 
-export const ToggleAdd = () => {
+export const ToggleAdd = (props) => {
   return (
-    <div>
-      ToggleAdd
-      <GameDetailForm />
+    <div className="toggle-add" style={props.formOpen ? { display: "none" } : { display: "block" }}>
+      <GrAddCircle onClick={props.handleFormOpen} className="toggle-add-btn" />
     </div>
   );
 };

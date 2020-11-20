@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { GameDetailForm } from "./GameDetailForm";
+import React from "react";
 import { EditOverlay } from "./EditOverlay";
 import "../style/GameDetail.scss";
 import { game_type } from "../constants/Contant.js";

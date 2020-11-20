@@ -1,9 +1,10 @@
 import React from "react";
 import { EditableGameDetail } from "./EditableGameDetail";
+import { GameDetailForm } from "./GameDetailForm";
 import "../style/GameList.scss";
 import Container from "react-bootstrap/Container";
 
-export const GameList = () => {
+export const GameList = (props) => {
   let test_date = new Date("2015-03-25");
 
   return (
@@ -58,6 +59,9 @@ export const GameList = () => {
         date={test_date}
         players={"4-8"}
       />
+      <div style={props.formOpen ? { display: "block" } : { display: "none" }}>
+        <GameDetailForm disableEditForm={props.handleFormClose} />
+      </div>
     </Container>
   );
 };

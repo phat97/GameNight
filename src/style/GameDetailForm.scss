@@ -105,6 +105,10 @@ input[type="radio"]:focus {
   font-weight: bold;
 }
 
+.form-btn:focus {
+  outline: none;
+}
+
 .submit-btn {
   border: solid darkblue 1px;
   box-shadow: black 1px 1px 1px;
