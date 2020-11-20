@@ -3,7 +3,6 @@ import { Filter } from "./Filter";
 import { GameList } from "./GameList";
 import { ToggleAdd } from "./ToggleAdd";
 import "../style/Dashboard.scss";
-import { Container } from "react-bootstrap";
 
 export const Dashboard = () => {
   const [formOpen, setFormOpen] = useState(false);
@@ -22,7 +21,6 @@ export const Dashboard = () => {
       </header>
       <Filter />
       <GameList formOpen={formOpen} handleFormClose={handleFormClose} />
-
       <ToggleAdd formOpen={formOpen} handleFormOpen={handleFormOpen} />
     </div>
   );
