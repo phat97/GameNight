@@ -23,6 +23,12 @@ input[type="number"] {
   padding: 0 5px;
 }
 
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border: skyblue solid 1px;
+}
+
 .radio-btn label {
   display: inline;
 }
@@ -52,7 +58,7 @@ input[type="radio"]:focus {
 }
 
 .file + label {
-  margin: 10px 0;
+  margin: 10px 0 0;
   padding: 5px 15px;
   border: solid darkblue 1px;
   background-color: white;
@@ -83,4 +89,32 @@ input[type="radio"]:focus {
 
 .form-btn {
   margin: 0 20px;
+  outline: none;
+  border-radius: 30px;
+  padding: 3px 10px;
+  background: white;
+  box-shadow: none;
+  border: none;
+  text-shadow: none;
+  font-weight: bold;
+}
+
+.submit-btn {
+  border: solid darkblue 1px;
+  box-shadow: black 1px 1px 1px;
+}
+
+.submit-btn:hover {
+  background: darkblue;
+  color: white;
+}
+
+.cancel-btn {
+  border: solid darkred 1px;
+  box-shadow: black 1px 1px 1px;
+}
+
+.cancel-btn:hover {
+  background: darkred;
+  color: white;
 }

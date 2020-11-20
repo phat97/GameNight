@@ -34,7 +34,7 @@ export const GameDetailForm = (props) => {
   };
 
   const handleCost = (e) => {
-    setCost(e.taget.value);
+    setCost(e.target.value);
   };
 
   const handlePlayers = (e) => {
@@ -93,7 +93,14 @@ export const GameDetailForm = (props) => {
         </label>
         <label>
           Cost:
-          <input type="number" name="cost" className="small-input" defaultValue={cost} onChange={handleCost} />
+          <input
+            type="text"
+            pattern="[0-9]+"
+            name="cost"
+            className="small-input"
+            defaultValue={cost}
+            onChange={handleCost}
+          />
         </label>
         <label>
           Number of Players
@@ -101,6 +108,7 @@ export const GameDetailForm = (props) => {
             type="text"
             name="players"
             placeholder="ie. 2-4"
+            pattern="^[1-9]-?[0-9]?+"
             className="small-input"
             defaultValue={players}
             onChange={handlePlayers}
