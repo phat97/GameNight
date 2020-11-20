@@ -108,7 +108,7 @@ export const GameDetailForm = (props) => {
             type="text"
             name="players"
             placeholder="ie. 2-4"
-            pattern="^[1-9]-?[0-9]?+"
+            pattern="^[1-9]*-*[0-9]"
             className="small-input"
             defaultValue={players}
             onChange={handlePlayers}
