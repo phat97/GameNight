@@ -23,12 +23,15 @@ export const EditableGameDetail = (props) => {
     return (
       <div>
         <GameDetailForm
-          disableEditForm={handleDisableEditForm}
+          id={props.id}
           title={props.title}
+          type={props.type}
           own={props.own}
           name={props.name}
           cost={props.cost}
+          date={props.date}
           players={props.players}
+          disableEditForm={handleDisableEditForm}
         />
       </div>
     );
@@ -36,6 +39,7 @@ export const EditableGameDetail = (props) => {
     return (
       <div>
         <GameDetail
+          id={props.id}
           title={props.title}
           type={props.type}
           image={props.image}
