@@ -38,7 +38,7 @@ export const GameDetail = (props) => {
       </div>
       <p className="game-text">{props.own ? `Owned by: ${props.name}` : `Anyone own this?`}</p>
       <p className="game-text">
-        Cost: <b>{props.cost > 0 ? props.cost : "Free"}</b>
+        Cost: <b>{props.cost > 0 ? `$${props.cost}` : "Free"}</b>
       </p>
       <div className="d-flex flex-row justify-content-between align-items-end">
         <p className="date-created align-self-end">Updated on: {date.toLocaleString()}</p>
