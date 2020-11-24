@@ -27,8 +27,8 @@ export const GameDetail = (props) => {
     >
       <EditOverlay active={props.overlay} enableEditForm={enableEditForm} />
       <div className="d-flex flex-row justify-content-between">
-        <h4 className="game-title">
-          {props.title} {props.own ? "" : "(Who has?)"}
+        <h4 className={`game-title ${props.own ? "" : " not-own"}`}>
+          {props.title} {props.own ? "" : "(Not Owned)"}
         </h4>
         <div className="game-type">{type_icon}</div>
       </div>
@@ -36,7 +36,7 @@ export const GameDetail = (props) => {
       <div className="d-flex flex-row justify-content-center">
         <img className="game-image" src={process.env.PUBLIC_URL + props.image} alt={props.title} />
       </div>
-      <p className="game-text">{props.own ? `Owned by: ${props.name}` : `Anyone own this?`}</p>
+      <p className="game-text">{props.own ? `Owned by: ${props.name}` : `Anyone have this?`}</p>
       <p className="game-text">
         Cost: <b>{props.cost > 0 ? `$${props.cost}` : "Free"}</b>
       </p>
