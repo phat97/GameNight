@@ -23,6 +23,9 @@ export const GameDetailForm = (props) => {
   };
 
   const handleFileSelected = (e) => {
+    if (image !== undefined) {
+      URL.revokeObjectURL(image);
+    }
     setImage(URL.createObjectURL(e.target.files[0]));
     setUploadImageTitle(e.target.files[0].name);
   };
