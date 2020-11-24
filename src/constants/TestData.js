@@ -1,6 +1,9 @@
+import { FaRProject } from "react-icons/fa";
+import { v4 } from "uuid";
+
 export const sample_data = [
   {
-    id: 1,
+    id: v4(),
     title: "Among Us",
     type: "online",
     image: "/images/among_us.jpg",
@@ -11,7 +14,7 @@ export const sample_data = [
     players: "4-8",
   },
   {
-    id: 2,
+    id: v4(),
     title: "League of Legends",
     type: "online",
     image: "/images/lol.jpg",
@@ -22,7 +25,7 @@ export const sample_data = [
     players: "1-5",
   },
   {
-    id: 3,
+    id: v4(),
     title: "Playing Cards",
     image: "/images/default.jpg",
     type: "home",
@@ -33,7 +36,7 @@ export const sample_data = [
     players: "4",
   },
   {
-    id: 4,
+    id: v4(),
     title: "Fallguys",
     image: "/images/fallguys.jpg",
     type: "online",

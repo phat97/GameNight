@@ -5,6 +5,10 @@ import "../style/GameList.scss";
 import Container from "react-bootstrap/Container";
 
 export const GameList = (props) => {
+  const handleCreateGameDetail = (data) => {
+    props.handleCreateGameDetail(data);
+  };
+
   const gameDetails = props.games.map((game) => (
     <EditableGameDetail
       id={game.id}
@@ -24,7 +28,7 @@ export const GameList = (props) => {
     <Container fluid className="game-list d-flex justify-content-around">
       {gameDetails}
       <div style={props.formOpen ? { display: "block" } : { display: "none" }}>
-        <GameDetailForm disableEditForm={props.handleFormClose} />
+        <GameDetailForm disableEditForm={props.handleFormClose} formSubmit={handleCreateGameDetail} />
       </div>
     </Container>
   );

@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "../style/GameDetailForm.scss";
 import { game_type } from "../constants/Contant.js";
 import { FaUpload } from "react-icons/fa";
+import { v4 } from "uuid";
 
 export const GameDetailForm = (props) => {
   const [title, setTitle] = useState(props.title || "");
   const [image, setImage] = useState(null);
+  const [uploadImageTitle, setUploadImageTitle] = useState("");
   const [type, setType] = useState(props.type || game_type.ONLINE);
   const [own, setOwn] = useState(props.own || false);
   const [name, setName] = useState(props.name || "");
@@ -21,8 +23,8 @@ export const GameDetailForm = (props) => {
   };
 
   const handleFileSelected = (e) => {
-    setImage(e.target.files[0]);
-    console.log(e.target.files[0].name);
+    setImage(URL.createObjectURL(e.target.files[0]));
+    setUploadImageTitle(e.target.files[0].name);
   };
 
   const handleOwnGame = (e) => {
@@ -39,6 +41,26 @@ export const GameDetailForm = (props) => {
 
   const handlePlayers = (e) => {
     setPlayers(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    props.formSubmit({
+      id: props.id || v4(),
+      title: title || "Game Title",
+      type: type,
+      image: image || "/images/default.jpg",
+      own: own,
+      cost: cost || 0,
+      date: new Date(),
+      players: players,
+    });
+    props.disableEditForm();
+  };
+
+  const handleDelete = (e) => {
+    props.disableEditForm();
   };
 
   return (
@@ -80,7 +102,7 @@ export const GameDetailForm = (props) => {
         />
         <label htmlFor="image-file">
           <FaUpload className="upload-icon" />
-          {image != null ? image.name : "upload a file"}
+          {uploadImageTitle !== "" ? uploadImageTitle : "upload a file"}
         </label>
 
         <label>
@@ -115,11 +137,19 @@ export const GameDetailForm = (props) => {
           />
         </label>
         <div className="d-flex flex-row btn-container">
-          <button className="form-btn submit-btn" type="submit">
+          <button className="form-btn submit-btn" type="submit" onClick={handleSubmit}>
             Submit
           </button>
           <button className="form-btn cancel-btn" type="button" onClick={props.disableEditForm}>
             Cancel
+          </button>
+          <button
+            style={props.id !== undefined ? { display: "block" } : { display: "none" }}
+            className="form-btn delete-btn"
+            type="button"
+            onClick={handleDelete}
+          >
+            Delete
           </button>
         </div>
       </form>

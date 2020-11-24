@@ -135,3 +135,13 @@ input[type="radio"]:focus {
   background: darkred;
   color: white;
 }
+
+.delete-btn {
+  border: solid black 1px;
+  box-shadow: black 1px 1px 1px;
+}
+
+.delete-btn:hover {
+  background: black;
+  color: white;
+}
