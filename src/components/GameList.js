@@ -22,6 +22,7 @@ export const GameList = (props) => {
       date={game.date}
       players={game.players}
       handleUpdateForm={props.handleUpdateForm}
+      handleDeleteGameDetail={props.handleDeleteGameDetail}
     />
   ));
 

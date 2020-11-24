@@ -51,6 +51,14 @@ export const Dashboard = () => {
     setGames((games) => [...games, data]);
   };
 
+  const handleDeleteGameDetail = (id) => {
+    deleteGameDetail(id);
+  };
+
+  const deleteGameDetail = (id) => {
+    setGames(games.filter((game) => game.id !== id));
+  };
+
   return (
     <div>
       <header className="d-flex justify-content-center">
@@ -63,6 +71,7 @@ export const Dashboard = () => {
         handleFormClose={handleFormClose}
         handleCreateGameDetail={handleCreateGameDetail}
         handleUpdateForm={handleUpdateForm}
+        handleDeleteGameDetail={handleDeleteGameDetail}
       />
       <ToggleAdd formOpen={formOpen} handleFormOpen={handleFormOpen} />
     </div>

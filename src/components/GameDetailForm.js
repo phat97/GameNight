@@ -76,6 +76,7 @@ export const GameDetailForm = (props) => {
 
   const handleDelete = (e) => {
     props.disableEditForm();
+    props.deleteGameDetail(props.id);
   };
 
   return (

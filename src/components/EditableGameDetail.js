@@ -34,6 +34,7 @@ export const EditableGameDetail = (props) => {
           players={props.players}
           disableEditForm={handleDisableEditForm}
           formSubmit={props.handleUpdateForm}
+          deleteGameDetail={props.handleDeleteGameDetail}
         />
       </div>
     );
