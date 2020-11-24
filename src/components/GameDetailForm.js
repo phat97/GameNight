@@ -6,7 +6,7 @@ import { v4 } from "uuid";
 
 export const GameDetailForm = (props) => {
   const [title, setTitle] = useState(props.title || "");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(props.image);
   const [uploadImageTitle, setUploadImageTitle] = useState("");
   const [type, setType] = useState(props.type || game_type.ONLINE);
   const [own, setOwn] = useState(props.own || false);
@@ -43,6 +43,16 @@ export const GameDetailForm = (props) => {
     setPlayers(e.target.value);
   };
 
+  const resetForm = () => {
+    setTitle("");
+    setUploadImageTitle("");
+    setType(game_type.ONLINE);
+    setOwn(false);
+    setName("");
+    setCost(0);
+    setPlayers("");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -52,10 +62,12 @@ export const GameDetailForm = (props) => {
       type: type,
       image: image || "/images/default.jpg",
       own: own,
+      name: name,
       cost: cost || 0,
       date: new Date(),
       players: players,
     });
+    resetForm();
     props.disableEditForm();
   };
 
@@ -68,7 +80,7 @@ export const GameDetailForm = (props) => {
       <form>
         <label>
           Game Title:
-          <input type="text" name="title" defaultValue={title} onChange={handleTitleChange} />
+          <input type="text" name="title" value={title} onChange={handleTitleChange} />
         </label>
         <div className="radio-btn">
           <label>
@@ -111,18 +123,11 @@ export const GameDetailForm = (props) => {
         </label>
         <label style={own ? { display: "block" } : { display: "none" }}>
           Owner:
-          <input type="text" name="name" defaultValue={name} onChange={handleName} />
+          <input type="text" name="name" value={name} onChange={handleName} />
         </label>
         <label>
           Cost:
-          <input
-            type="text"
-            pattern="[0-9]+"
-            name="cost"
-            className="small-input"
-            defaultValue={cost}
-            onChange={handleCost}
-          />
+          <input type="text" pattern="[0-9]+" name="cost" className="small-input" value={cost} onChange={handleCost} />
         </label>
         <label>
           Number of Players
@@ -132,13 +137,13 @@ export const GameDetailForm = (props) => {
             placeholder="ie. 2-4"
             pattern="^[1-9]*-*[0-9]"
             className="small-input"
-            defaultValue={players}
+            value={players}
             onChange={handlePlayers}
           />
         </label>
         <div className="d-flex flex-row btn-container">
           <button className="form-btn submit-btn" type="submit" onClick={handleSubmit}>
-            Submit
+            {props.id !== undefined ? "Update" : "Submit"}
           </button>
           <button className="form-btn cancel-btn" type="button" onClick={props.disableEditForm}>
             Cancel

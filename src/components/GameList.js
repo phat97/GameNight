@@ -21,6 +21,7 @@ export const GameList = (props) => {
       cost={game.cost}
       date={game.date}
       players={game.players}
+      handleUpdateForm={props.handleUpdateForm}
     />
   ));
 

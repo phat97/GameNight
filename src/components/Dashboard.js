@@ -18,6 +18,31 @@ export const Dashboard = () => {
     setFormOpen(false);
   };
 
+  const handleUpdateForm = (data) => {
+    updateGameDetail(data);
+  };
+
+  const updateGameDetail = (data) => {
+    setGames(
+      games.map((game) => {
+        if (game.id === data.id) {
+          return Object.assign({}, game, {
+            title: data.title,
+            type: data.type,
+            image: data.image,
+            name: data.name,
+            own: data.own,
+            cost: data.cost,
+            date: data.date,
+            players: data.players,
+          });
+        } else {
+          return game;
+        }
+      })
+    );
+  };
+
   const handleCreateGameDetail = (data) => {
     createNewGameDetail(data);
   };
@@ -37,6 +62,7 @@ export const Dashboard = () => {
         formOpen={formOpen}
         handleFormClose={handleFormClose}
         handleCreateGameDetail={handleCreateGameDetail}
+        handleUpdateForm={handleUpdateForm}
       />
       <ToggleAdd formOpen={formOpen} handleFormOpen={handleFormOpen} />
     </div>

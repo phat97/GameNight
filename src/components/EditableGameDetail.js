@@ -26,12 +26,14 @@ export const EditableGameDetail = (props) => {
           id={props.id}
           title={props.title}
           type={props.type}
+          image={props.image}
           own={props.own}
           name={props.name}
           cost={props.cost}
           date={props.date}
           players={props.players}
           disableEditForm={handleDisableEditForm}
+          formSubmit={props.handleUpdateForm}
         />
       </div>
     );
