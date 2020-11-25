@@ -1,4 +1,3 @@
-import { FaRProject } from "react-icons/fa";
 import { v4 } from "uuid";
 
 export const sample_data = [

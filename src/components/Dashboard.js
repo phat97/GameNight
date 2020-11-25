@@ -3,7 +3,9 @@ import { Filter } from "./Filter";
 import { GameList } from "./GameList";
 import { ToggleAdd } from "./ToggleAdd";
 import "../style/Dashboard.scss";
-import { sample_data } from "../constants/TestData";
+import { sample_data } from "../constants/SampleData";
+import { sort_type } from "../constants/Contant";
+import * as Sorter from "../SortHelper";
 
 export const Dashboard = () => {
   const [formOpen, setFormOpen] = useState(false);
@@ -59,12 +61,29 @@ export const Dashboard = () => {
     setGames(games.filter((game) => game.id !== id));
   };
 
+  const sortData = (sort) => {
+    switch (sort) {
+      case sort_type.PLAYERS:
+        setGames(Sorter.sortByPlayers(games));
+        break;
+      case sort_type.TITLE:
+        setGames(Sorter.sortByTitle(games));
+        break;
+      case sort_type.COST:
+        setGames(Sorter.sortByCost(games));
+        break;
+      default:
+        console.log("Something wrong with sorting");
+        break;
+    }
+  };
+
   return (
     <div>
       <header className="d-flex justify-content-center">
         <h1 className="banner-title">Game Night</h1>
       </header>
-      <Filter />
+      <Filter sortData={sortData} />
       <GameList
         games={games}
         formOpen={formOpen}
