@@ -1,10 +1,22 @@
+.dropdown {
+  padding-left: 20px;
+}
+
+#dropdown-basic {
+  font-weight: bold;
+}
+
 .dropdown-toggle:focus {
   outline: none;
   box-shadow: none;
 }
 
 .dropdown-toggle:hover {
-  color: blue;
+  color: rgb(0, 0, 231);
+}
+
+.dropdown-toggle::after {
+  content: none;
 }
 
 .dropdown-menu {
@@ -28,4 +40,18 @@
 .filter-row {
   margin-left: 0;
   border-bottom: solid darkblue 1px;
+}
+
+.btn {
+  padding-right: 0;
+  margin-right: 0.75rem;
+}
+
+.sort-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.sort-icon > *:hover {
+  color: rgb(0, 0, 231);
 }

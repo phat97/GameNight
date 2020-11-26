@@ -61,16 +61,16 @@ export const Dashboard = () => {
     setGames(games.filter((game) => game.id !== id));
   };
 
-  const sortData = (sort) => {
+  const sortData = (sort, sortOrder) => {
     switch (sort) {
       case sort_type.PLAYERS:
-        setGames(Sorter.sortByPlayers(games));
+        setGames(Sorter.sortByPlayers(games, sortOrder));
         break;
       case sort_type.TITLE:
-        setGames(Sorter.sortByTitle(games));
+        setGames(Sorter.sortByTitle(games, sortOrder));
         break;
       case sort_type.COST:
-        setGames(Sorter.sortByCost(games));
+        setGames(Sorter.sortByCost(games, sortOrder));
         break;
       default:
         console.log("Something wrong with sorting");
