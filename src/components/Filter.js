@@ -13,6 +13,13 @@ export const Filter = (props) => {
     props.sortData(sort, sortAscending);
   };
 
+  // This runs only once on page load to sort by Title ascending (A-Z)
+  useEffect(() => {
+    props.sortData(sort_type.TITLE, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Sort each time ascending/descending value is changed.
   useEffect(() => {
     handleSortData(sortByItem);
     // eslint-disable-next-line react-hooks/exhaustive-deps
