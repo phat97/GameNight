@@ -5,7 +5,7 @@ import { ToggleAdd } from "./ToggleAdd";
 import "../style/Dashboard.scss";
 import { sample_data } from "../constants/SampleData";
 import { sort_type } from "../constants/Contant";
-import * as Sorter from "../SortHelper";
+import * as Sorter from "../helper/SortHelper";
 
 export const Dashboard = () => {
   const [formOpen, setFormOpen] = useState(false);

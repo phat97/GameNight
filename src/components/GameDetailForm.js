@@ -113,10 +113,10 @@ export const GameDetailForm = (props) => {
           accept="image/*"
           name="image"
           className="file"
-          id="image-file"
+          id={props.id ? props.id : "image-file"}
           onChange={handleFileSelected}
         />
-        <label htmlFor="image-file">
+        <label htmlFor={props.id ? props.id : "image-file"}>
           <FaUpload className="upload-icon" />
           {uploadImageTitle !== "" ? uploadImageTitle : "upload a file"}
         </label>
