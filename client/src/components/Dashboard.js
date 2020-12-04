@@ -3,7 +3,7 @@ import { Filter } from "./Filter";
 import { GameList } from "./GameList";
 import { ToggleAdd } from "./ToggleAdd";
 import "../style/Dashboard.scss";
-import { sample_data } from "../constants/SampleData";
+import { sample_data } from "../SampleData";
 import { sort_type } from "../constants/Contant";
 import * as Sorter from "../helper/SortHelper";
 
