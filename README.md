@@ -1,0 +1,1 @@
+Personal project using MERN stack with webpack/babel.
