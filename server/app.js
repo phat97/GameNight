@@ -4,11 +4,11 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
-const cors = require("cors")
+const cors = require("cors");
 
 const app = express();
 
-const BUILD_DIR = path.join(__dirname, '../build');
+const BUILD_DIR = path.join(__dirname, "../build");
 
 app.use(logger("dev"));
 app.use(express.json());
