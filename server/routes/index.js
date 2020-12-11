@@ -1,13 +1,20 @@
-var express = require("express");
-var router = express.Router();
-const path = require("path");
+const express = require("express");
+const router = express.Router();
+const IndexController = require("../Controller/IndexController");
 
-const BUILD_DIR = path.join(__dirname, "../build");
-const HTML_FILE = path.join(BUILD_DIR, "index.html");
+// GET home page
+router.get("/", IndexController.index);
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  res.sendFile(HTML_FILE);
-});
+// GET all game list
+router.get("/api/game/list", IndexController.game_list);
+
+// POST add game list
+router.post("/api/game/list/add", IndexController.game_add);
+
+// DELETE delte game list
+router.delete("/api/game/list/delete", IndexController.game_delete);
+
+// PUT update game list
+router.put("/api/game/list/update", IndexController.game_update);
 
 module.exports = router;
