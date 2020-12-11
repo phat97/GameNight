@@ -81,7 +81,7 @@ export const Dashboard = () => {
   return (
     <div>
       <header className="d-flex justify-content-center">
-        <h1 className="banner-title">Game Night</h1>
+        <h1 className="banner-title no-select">Game Night</h1>
       </header>
       <Filter sortData={sortData} />
       <GameList
