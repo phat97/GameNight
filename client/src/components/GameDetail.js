@@ -34,7 +34,7 @@ export const GameDetail = (props) => {
       </div>
 
       <div className="d-flex flex-row justify-content-center">
-        <img className="game-image" src={process.env.PUBLIC_URL + props.image} alt={props.title} />
+        <img className="game-image" src={`${props.image}`} alt={props.title} />
       </div>
       <p className="game-text">{props.own ? `Owned by: ${props.name}` : `Anyone have this?`}</p>
       <p className="game-text">

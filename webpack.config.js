@@ -1,8 +1,8 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require('path');
 
-
 module.exports = {
+
     entry: { index: path.resolve(__dirname + "/client/", "src", "index.js") },
     output: {
         path: path.resolve(__dirname, "build"),
@@ -32,4 +32,4 @@ module.exports = {
             }
         ]
     }
-};
+}

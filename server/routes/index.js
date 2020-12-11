@@ -7,10 +7,7 @@ const HTML_FILE = path.join(BUILD_DIR, "index.html");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  console.log(HTML_FILE);
-  console.log("home");
-  //res.sendFile(HTML_FILE);
-  res.send("ok");
+  res.sendFile(HTML_FILE);
 });
 
 module.exports = router;
