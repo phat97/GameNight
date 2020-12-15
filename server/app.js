@@ -5,6 +5,18 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const cors = require("cors");
+const helmet = require("helmet");
+const mongoose = require("mongoose");
+const mongooseURI = require("./config/config");
+
+//connecting to database
+mongoose.connect(mongooseURI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//Get the default connection
+var db = mongoose.connection;
+
+//Bind connection to error event (to get notification of connection errors)
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 const app = express();
 
@@ -16,9 +28,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(BUILD_DIR));
 app.use(cors());
+app.use(helmet());
 
 app.use("/", indexRouter);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
