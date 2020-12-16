@@ -24,13 +24,7 @@ exports.gameList = (req, res) => {
 exports.gameAdd = (req, res) => {
   const data = req.body;
   const query = { _id: data._id };
-  const update = {
-    $addToSet: {
-      gamelist: {
-        $each: req.body.gamelist
-      }
-    }
-  }
+  const update = { $addToSet: { gamelist: { $each: req.body.gamelist } } }
   const options = { upsert: true };
 
   collection
@@ -43,11 +37,11 @@ exports.gameAdd = (req, res) => {
     });
 };
 
+// Delete item
 exports.gameDelete = (req, res) => {
   const query = { _id: req.query.id }
-  const update = {
-    $pull: { "gamelist": { _gameId: req.query.gameid } }
-  }
+  const update = { $pull: { "gamelist": { _gameId: req.query.gameid } } }
+
   collection.updateOne(query, update, false, true).then((result) => {
     res.status(200).send("Successfully deleted");
   }).catch((err) => {
@@ -55,6 +49,15 @@ exports.gameDelete = (req, res) => {
   })
 };
 
+
+// Update item
 exports.gameUpdate = (req, res) => {
-  res.send("Not implemented: update game detail");
+  const query = { _id: req.query.id, "gamelist._gameId": req.query.gameid }
+  const update = { $set: { "gamelist.$": req.body.gamelist } }
+
+  collection.updateOne(query, update).then((result) => {
+    res.status(200).send("Successfully updated");
+  }).catch((err) => {
+    res.status(500).send(`Failed to update: ${err}`)
+  })
 };
