@@ -1,6 +1,6 @@
 // Handle endpoints
 const path = require("path");
-const { collection } = require("../model/UserGameList");
+const { collection } = require("../models/UserGameList");
 
 exports.index = (req, res) => {
   res.sendFile(path.join(__dirname + "../build", "index.html")); // Load react page without data
@@ -8,31 +8,30 @@ exports.index = (req, res) => {
 
 // Get list of all Games
 exports.gameList = (req, res) => {
+  console.log(req.query.id);
+  const query = { _id: req.query.id }
   collection
-    .find()
-    .then((result) => {
-      res.status(200).send(result);
+    .find(query).toArray((err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(`Cannot retreive data: ${err}`)
+      } else {
+        res.status(200).send(result)
+      }
     })
-    .catch((err) => {
-      res.status(500).send(`Failed to retrieve all data: ${err}`);
-    });
 
-  res.send("This should never happen");
 };
 
 exports.gameAdd = (req, res) => {
   const data = req.body;
-  const query = { _userId: data._userId, _gameId: data._gameId };
+  const query = { _id: data._id };
   const update = {
-    $set: {
-      _gameId: data._gameId,
-      title: data.type,
-      imageURI: data.imageURI,
-      own: data.own,
-      date: data.date,
-      players: data.players,
-    },
-  };
+    $addToSet: {
+      gamelist: {
+        $each: req.body.gamelist
+      }
+    }
+  }
   const options = { upsert: true };
 
   collection
@@ -41,10 +40,8 @@ exports.gameAdd = (req, res) => {
       res.status(200).send("Successfully added");
     })
     .catch((err) => {
-      res.status(500).send("Failed to add");
+      res.status(500).send(`Failed to add: ${err}`);
     });
-
-  res.send("This should never happen");
 };
 
 exports.gameDelete = (req, res) => {
