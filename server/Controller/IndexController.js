@@ -8,7 +8,6 @@ exports.index = (req, res) => {
 
 // Get list of all Games
 exports.gameList = (req, res) => {
-  console.log(req.query.id);
   const query = { _id: req.query.id }
   collection
     .find(query).toArray((err, result) => {
@@ -19,9 +18,9 @@ exports.gameList = (req, res) => {
         res.status(200).send(result)
       }
     })
-
 };
 
+// Add to list
 exports.gameAdd = (req, res) => {
   const data = req.body;
   const query = { _id: data._id };
@@ -45,7 +44,15 @@ exports.gameAdd = (req, res) => {
 };
 
 exports.gameDelete = (req, res) => {
-  res.send("Not implemented: delete an existing");
+  const query = { _id: req.query.id }
+  const update = {
+    $pull: { "gamelist": { _gameId: req.query.gameid } }
+  }
+  collection.updateOne(query, update, false, true).then((result) => {
+    res.status(200).send("Successfully deleted");
+  }).catch((err) => {
+    res.status(500).send(`Failed to delete: ${err}`)
+  })
 };
 
 exports.gameUpdate = (req, res) => {
