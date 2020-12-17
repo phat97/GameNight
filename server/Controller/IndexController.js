@@ -2,6 +2,7 @@
 const path = require("path");
 const { collection } = require("../models/UserGameList");
 
+// Home page
 exports.index = (req, res) => {
   res.sendFile(path.join(__dirname + "../build", "index.html")); // Load react page without data
 };
@@ -48,7 +49,6 @@ exports.gameDelete = (req, res) => {
     res.status(500).send(`Failed to delete: ${err}`)
   })
 };
-
 
 // Update item
 exports.gameUpdate = (req, res) => {

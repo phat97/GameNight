@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Filter } from "./Filter";
 import { GameList } from "./GameList";
 import { ToggleAdd } from "./ToggleAdd";
@@ -6,12 +6,30 @@ import "../style/Dashboard.scss";
 import { sample_data } from "../SampleData";
 import { sort_type } from "../constants/Contant";
 import * as Sorter from "../helper/SortHelper";
+const axios = require('axios').default;
 
 export const Dashboard = () => {
+
+  /* States */
   const [formOpen, setFormOpen] = useState(false);
+  const [games, setGames] = useState([]);
 
-  const [games, setGames] = useState(sample_data);
+  /* Hooks */
 
+  // Runs only once on load - Grab all data
+  useEffect(() => {
+    axios.get('/api/game/list?id=1').then((res) => {
+      setGames(res.data[0].gamelist)
+    }).catch((err) => {
+      console.log(err);
+      console.log("Using sample_data");
+      setGames(sample_data);
+    })
+  }, [])
+
+
+
+  /* Function handlers */
   const handleFormOpen = () => {
     setFormOpen(true);
   };
@@ -27,11 +45,11 @@ export const Dashboard = () => {
   const updateGameDetail = (data) => {
     setGames(
       games.map((game) => {
-        if (game.id === data.id) {
+        if (game._gameId === data._gameId) {
           return Object.assign({}, game, {
             title: data.title,
             type: data.type,
-            image: data.image,
+            imageURI: data.imageURI,
             name: data.name,
             own: data.own,
             cost: data.cost,
@@ -58,7 +76,7 @@ export const Dashboard = () => {
   };
 
   const deleteGameDetail = (id) => {
-    setGames(games.filter((game) => game.id !== id));
+    setGames(games.filter((game) => game._gameId !== id));
   };
 
   const sortData = (sort, sortOrder) => {
@@ -78,6 +96,7 @@ export const Dashboard = () => {
     }
   };
 
+  /* Render */
   return (
     <div>
       <header className="d-flex justify-content-center">

@@ -11,11 +11,11 @@ export const GameList = (props) => {
 
   const gameDetails = props.games.map((game) => (
     <EditableGameDetail
-      id={game.id}
-      key={game.id}
+      id={game._gameId}
+      key={game._gameId}
       title={game.title}
       type={game.type}
-      image={game.image}
+      image={game.imageURI}
       name={game.name}
       own={game.own}
       cost={game.cost}
