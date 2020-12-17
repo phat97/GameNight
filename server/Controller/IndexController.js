@@ -55,7 +55,7 @@ exports.gameDelete = (req, res) => {
 
 // Update item
 exports.gameUpdate = (req, res) => {
-  const query = { _id: req.query.id, "gamelist._gameId": req.query.gameid }
+  const query = { _id: req.body._id, "gamelist._gameId": req.body.gamelist._gameId }
   const update = { $set: { "gamelist.$": req.body.gamelist } }
 
   collection.updateOne(query, update).then((result) => {

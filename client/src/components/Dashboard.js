@@ -10,14 +10,13 @@ const axios = require('axios').default;
 
 export const Dashboard = () => {
 
-
   /* States */
   const [formOpen, setFormOpen] = useState(false);
   const [games, setGames] = useState([]);
   const [userId, setUserId] = "1";
 
-  /* Hooks */
 
+  /* Hooks */
   // Runs only once on load - Grab all data
   useEffect(() => {
     axios.get('/api/game/list?id=1').then((res) => {
@@ -28,7 +27,6 @@ export const Dashboard = () => {
       setGames(sample_data);
     })
   }, [])
-
 
 
   /* Function handlers */
@@ -44,54 +42,64 @@ export const Dashboard = () => {
     updateGameDetail(data);
   };
 
-  const updateGameDetail = (data) => {
-    setGames(
-      games.map((game) => {
-        if (game._gameId === data._gameId) {
-          return Object.assign({}, game, {
-            title: data.title,
-            type: data.type,
-            imageURI: data.imageURI,
-            name: data.name,
-            own: data.own,
-            cost: data.cost,
-            date: data.date,
-            players: data.players,
-          });
-        } else {
-          return game;
-        }
-      })
-    );
+  const handleDeleteGameDetail = (id) => {
+    deleteGameDetail(id);
   };
 
   const handleCreateGameDetail = (data) => {
     createNewGameDetail(data);
   };
 
+
+  /* CRUD Functions */
   const createNewGameDetail = (data) => {
-    axios.post("/api/game/list/add", {
-      _id: userId,
-      gamelist: [data]
-    }).then((res) => {
-      setGames((games) => [...games, data]);
-    }).catch((err) => {
-      console.log(`Failed to add: ${err}`)
-    })
+    axios.post("/api/game/list/add", { _id: userId, gamelist: [data] })
+      .then((res) => {
+        setGames((games) => [...games, data]);
+      }).catch((err) => {
+        console.log(`Failed to add: ${err}`)
+      })
   };
 
-  const handleDeleteGameDetail = (id) => {
-    deleteGameDetail(id);
+  const updateGameDetail = (data) => {
+    console.log(data);
+    axios.put(`/api/game/list/update`, { _id: userId, gamelist: data })
+      .then((res) => {
+        setGames(
+          games.map((game) => {
+            if (game._gameId === data._gameId) {
+              return Object.assign({}, game, {
+                title: data.title,
+                type: data.type,
+                imageURI: data.imageURI,
+                name: data.name,
+                own: data.own,
+                cost: data.cost,
+                date: data.date,
+                players: data.players,
+              });
+            } else {
+              return game;
+            }
+          })
+        );
+        console.log("Updated");
+      }).catch((err) => {
+        console.log(`failed to update: ${err}`)
+      })
   };
 
   const deleteGameDetail = (id) => {
-    axios.delete(`/api/game/list/delete?id=${userId}&gameid=${id}`).then((res) => {
-      setGames(games.filter((game) => game._gameId !== id));
-    }).catch((err) => {
-      console.log(`Failed to delete: ${err}`)
-    })
+    axios.delete(`/api/game/list/delete?id=${userId}&gameid=${id}`)
+      .then((res) => {
+        setGames(games.filter((game) => game._gameId !== id));
+      }).catch((err) => {
+        console.log(`Failed to delete: ${err}`)
+      })
   };
 
+
+  /* Other Functions */
   const sortData = (sort, sortOrder) => {
     switch (sort) {
       case sort_type.PLAYERS:
@@ -108,6 +116,7 @@ export const Dashboard = () => {
         break;
     }
   };
+
 
   /* Render */
   return (
