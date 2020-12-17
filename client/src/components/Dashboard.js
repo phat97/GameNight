@@ -10,9 +10,11 @@ const axios = require('axios').default;
 
 export const Dashboard = () => {
 
+
   /* States */
   const [formOpen, setFormOpen] = useState(false);
   const [games, setGames] = useState([]);
+  const [userId, setUserId] = "1";
 
   /* Hooks */
 
@@ -68,7 +70,14 @@ export const Dashboard = () => {
   };
 
   const createNewGameDetail = (data) => {
-    setGames((games) => [...games, data]);
+    axios.post("/api/game/list/add", {
+      _id: userId,
+      gamelist: [data]
+    }).then((res) => {
+      setGames((games) => [...games, data]);
+    }).catch((err) => {
+      console.log(`Failed to add: ${err}`)
+    })
   };
 
   const handleDeleteGameDetail = (id) => {
@@ -76,7 +85,11 @@ export const Dashboard = () => {
   };
 
   const deleteGameDetail = (id) => {
-    setGames(games.filter((game) => game._gameId !== id));
+    axios.delete(`/api/game/list/delete?id=${userId}&gameid=${id}`).then((res) => {
+      setGames(games.filter((game) => game._gameId !== id));
+    }).catch((err) => {
+      console.log(`Failed to delete: ${err}`)
+    })
   };
 
   const sortData = (sort, sortOrder) => {

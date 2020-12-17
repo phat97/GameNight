@@ -60,10 +60,10 @@ export const GameDetailForm = (props) => {
     e.preventDefault();
 
     props.formSubmit({
-      id: props.id || v4(),
+      _gameId: props.id || v4(),
       title: title || "Game Title",
       type: type,
-      image: image || "/images/default.jpg",
+      imageURI: image || "/images/default.jpg",
       own: own,
       name: name,
       cost: cost || 0,

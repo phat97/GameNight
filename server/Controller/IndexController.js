@@ -23,6 +23,9 @@ exports.gameList = (req, res) => {
 
 // Add to list
 exports.gameAdd = (req, res) => {
+
+  console.log(req.body.gamelist);
+
   const data = req.body;
   const query = { _id: data._id };
   const update = { $addToSet: { gamelist: { $each: req.body.gamelist } } }
