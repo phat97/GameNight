@@ -32,33 +32,33 @@ exports.fileUpdate = (req, res, next) => {
     if (err) {
       res.send(`Error uploading file: ${err}`)
     } else {
-      console.log(req.file);
-      console.log(req.body);
-      res.locals.id = "test";
+      let path = req.file.path;
+      let public_path = path.split("public");
+      res.locals.filepath = public_path[1].replace("/\\/g", "/");
       next();
     }
   })
-
 }
 
 // Add to list
 exports.gameAdd = (req, res) => {
-  console.log(res.locals.id);
-  // const data = req.body;
-  // const query = { _id: data._id };
-  // const update = { $addToSet: { gamelist: { req.body.gamelist } } }
-  // const options = { upsert: true };
 
-  // collection
-  //   .updateOne(query, update, options)
-  //   .then((result) => {
-  //     res.status(200).send("Successfully added");
-  //   })
-  //   .catch((err) => {
-  //     res.status(500).send(`Failed to add: ${err}`);
-  //   });
-  // res.send("file")
-  res.send(res.locals.id);
+  const data = JSON.parse(req.body.json);
+  const game_data = data.gamelist;
+  game_data.imageURI = res.locals.filepath;
+
+  const query = { _id: data._id };
+  const update = { $addToSet: { gamelist: game_data } }
+  const options = { upsert: true };
+
+  collection
+    .updateOne(query, update, options)
+    .then((result) => {
+      res.status(200).send("Successfully added");
+    })
+    .catch((err) => {
+      res.status(500).send(`Failed to add: ${err}`);
+    });
 };
 
 
