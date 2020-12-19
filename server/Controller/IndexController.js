@@ -1,6 +1,10 @@
 // Handle endpoints
 const path = require("path");
 const { collection } = require("../models/UserGameList");
+const multer = require('multer')
+const settings = require("../multer/Setting")
+
+const upload = multer({ storage: settings.storage, fileFilter: settings.filter }).single("image")
 
 // Home page
 exports.index = (req, res) => {
@@ -21,25 +25,42 @@ exports.gameList = (req, res) => {
     })
 };
 
+
+// File upload
+exports.fileUpdate = (req, res, next) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.send(`Error uploading file: ${err}`)
+    } else {
+      console.log(req.file);
+      console.log(req.body);
+      res.locals.id = "test";
+      next();
+    }
+  })
+
+}
+
 // Add to list
 exports.gameAdd = (req, res) => {
+  console.log(res.locals.id);
+  // const data = req.body;
+  // const query = { _id: data._id };
+  // const update = { $addToSet: { gamelist: { req.body.gamelist } } }
+  // const options = { upsert: true };
 
-  console.log(req.body.gamelist);
-
-  const data = req.body;
-  const query = { _id: data._id };
-  const update = { $addToSet: { gamelist: { $each: req.body.gamelist } } }
-  const options = { upsert: true };
-
-  collection
-    .updateOne(query, update, options)
-    .then((result) => {
-      res.status(200).send("Successfully added");
-    })
-    .catch((err) => {
-      res.status(500).send(`Failed to add: ${err}`);
-    });
+  // collection
+  //   .updateOne(query, update, options)
+  //   .then((result) => {
+  //     res.status(200).send("Successfully added");
+  //   })
+  //   .catch((err) => {
+  //     res.status(500).send(`Failed to add: ${err}`);
+  //   });
+  // res.send("file")
+  res.send(res.locals.id);
 };
+
 
 // Delete item
 exports.gameDelete = (req, res) => {
@@ -54,7 +75,7 @@ exports.gameDelete = (req, res) => {
 };
 
 // Update item
-exports.gameUpdate = (req, res) => {
+exports.gameUpdate = (req, res, next) => {
   const query = { _id: req.body._id, "gamelist._gameId": req.body.gamelist._gameId }
   const update = { $set: { "gamelist.$": req.body.gamelist } }
 

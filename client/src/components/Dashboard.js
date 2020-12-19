@@ -53,7 +53,7 @@ export const Dashboard = () => {
 
   /* CRUD Functions */
   const createNewGameDetail = (data) => {
-    axios.post("/api/game/list/add", { _id: userId, gamelist: [data] })
+    axios.post("/api/game/list/add", { _id: userId, gamelist: data })
       .then((res) => {
         setGames((games) => [...games, data]);
       }).catch((err) => {
