@@ -9,6 +9,7 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 const mongooseURI = require("./config/config");
 
+
 //connecting to database
 mongoose.connect(mongooseURI, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
   if (err) {
@@ -24,7 +25,7 @@ const BUILD_DIR = path.join(__dirname, "../build");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(BUILD_DIR));
 app.use(cors());

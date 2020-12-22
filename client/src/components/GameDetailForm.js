@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../style/GameDetailForm.scss";
 import { game_type } from "../constants/Contant.js";
 import { FaUpload } from "react-icons/fa";
@@ -23,12 +23,7 @@ export const GameDetailForm = (props) => {
   };
 
   const handleFileSelected = (e) => {
-    //TODO - DONT COVERT TO BLOB, UPLOAD IMAGE TO DATABASE THEN UPDATE STATE
-    if (image !== undefined) {
-      URL.revokeObjectURL(image);
-    }
-    setImage(URL.createObjectURL(e.target.files[0]));
-    console.log(`Image: ${URL.createObjectURL(e.target.files[0])}`);
+    setImage(e.target.files[0]);
     setUploadImageTitle(e.target.files[0].name);
   };
 
@@ -51,6 +46,7 @@ export const GameDetailForm = (props) => {
   const resetForm = () => {
     setTitle("");
     setUploadImageTitle("");
+    setImage(null);
     setType(game_type.ONLINE);
     setOwn(false);
     setName("");
@@ -60,7 +56,6 @@ export const GameDetailForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     props.formSubmit({
       _gameId: props.id || v4(),
       title: title || "Game Title",

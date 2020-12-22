@@ -2,7 +2,7 @@
 const path = require("path");
 const { collection } = require("../models/UserGameList");
 const multer = require('multer')
-const settings = require("../multer/Setting")
+const settings = require("../multer/Setting");
 
 const upload = multer({ storage: settings.storage, fileFilter: settings.filter }).single("image")
 
@@ -30,11 +30,20 @@ exports.gameList = (req, res) => {
 exports.fileUpdate = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {
-      res.send(`Error uploading file: ${err}`)
+      console.log(err);
+      res.send(500)
     } else {
-      let path = req.file.path;
-      let public_path = path.split("public");
-      res.locals.filepath = public_path[1].replace("/\\/g", "/");
+      if (req.file) {
+        res.locals.filepathExist = true;
+        let path = req.file.path;
+        let public_path = path.split("public");
+        res.locals.filepath = public_path[1].replace(/\\/g, "/");
+      } else {
+        res.locals.filepathExist = false;
+      }
+
+
+
       next();
     }
   })
@@ -43,9 +52,11 @@ exports.fileUpdate = (req, res, next) => {
 // Add to list
 exports.gameAdd = (req, res) => {
 
-  const data = JSON.parse(req.body.json);
+  const data = JSON.parse(req.body.data);
   const game_data = data.gamelist;
-  game_data.imageURI = res.locals.filepath;
+  if (res.locals.filepathExist) {
+    game_data.imageURI = res.locals.filepath;
+  }
 
   const query = { _id: data._id };
   const update = { $addToSet: { gamelist: game_data } }
@@ -54,7 +65,7 @@ exports.gameAdd = (req, res) => {
   collection
     .updateOne(query, update, options)
     .then((result) => {
-      res.status(200).send("Successfully added");
+      res.status(200).send(game_data.imageURI);
     })
     .catch((err) => {
       res.status(500).send(`Failed to add: ${err}`);
@@ -75,12 +86,16 @@ exports.gameDelete = (req, res) => {
 };
 
 // Update item
-exports.gameUpdate = (req, res, next) => {
-  const query = { _id: req.body._id, "gamelist._gameId": req.body.gamelist._gameId }
-  const update = { $set: { "gamelist.$": req.body.gamelist } }
+exports.gameUpdate = (req, res) => {
+  const game_data = JSON.parse(req.body.data);
+
+  game_data.gamelist.imageURI = res.locals.filepath;
+  console.log(game_data)
+  const query = { _id: game_data._id, "gamelist._gameId": game_data.gamelist._gameId }
+  const update = { $set: { "gamelist.$": game_data.gamelist } }
 
   collection.updateOne(query, update).then((result) => {
-    res.status(200).send("Successfully updated");
+    res.status(200).send(game_data.gamelist.imageURI);
   }).catch((err) => {
     res.status(500).send(`Failed to update: ${err}`)
   })

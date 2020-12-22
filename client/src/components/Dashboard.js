@@ -19,13 +19,14 @@ export const Dashboard = () => {
   /* Hooks */
   // Runs only once on load - Grab all data
   useEffect(() => {
-    axios.get('/api/game/list?id=1').then((res) => {
-      setGames(res.data[0].gamelist)
-    }).catch((err) => {
-      console.log(err);
-      console.log("Using sample_data");
-      setGames(sample_data);
-    })
+    axios.get('/api/game/list?id=1')
+      .then((res) => {
+        setGames(res.data[0].gamelist)
+      }).catch((err) => {
+        console.log(err);
+        console.log("Using sample_data");
+        setGames(sample_data);
+      })
   }, [])
 
 
@@ -38,8 +39,8 @@ export const Dashboard = () => {
     setFormOpen(false);
   };
 
-  const handleUpdateForm = (data) => {
-    updateGameDetail(data);
+  const handleUpdateForm = (data, upload) => {
+    updateGameDetail(data, upload);
   };
 
   const handleDeleteGameDetail = (id) => {
@@ -53,8 +54,17 @@ export const Dashboard = () => {
 
   /* CRUD Functions */
   const createNewGameDetail = (data) => {
-    axios.post("/api/game/list/add", { _id: userId, gamelist: data })
+    const formData = new FormData();
+    formData.append("image", data.imageURI);
+    formData.append("data", JSON.stringify({ _id: userId, gamelist: data }));
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data"
+      }
+    }
+    axios.post(`/api/game/list/add`, formData, config)
       .then((res) => {
+        data.imageURI = res.data;
         setGames((games) => [...games, data]);
       }).catch((err) => {
         console.log(`Failed to add: ${err}`)
@@ -62,8 +72,15 @@ export const Dashboard = () => {
   };
 
   const updateGameDetail = (data) => {
-    console.log(data);
-    axios.put(`/api/game/list/update`, { _id: userId, gamelist: data })
+    const formData = new FormData();
+    formData.append("image", data.imageURI);
+    formData.append("data", JSON.stringify({ _id: userId, gamelist: data }));
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data"
+      }
+    }
+    axios.put(`/api/game/list/update`, formData, config)
       .then((res) => {
         setGames(
           games.map((game) => {
@@ -71,7 +88,7 @@ export const Dashboard = () => {
               return Object.assign({}, game, {
                 title: data.title,
                 type: data.type,
-                imageURI: data.imageURI,
+                imageURI: res.data,
                 name: data.name,
                 own: data.own,
                 cost: data.cost,
@@ -83,7 +100,6 @@ export const Dashboard = () => {
             }
           })
         );
-        console.log("Updated");
       }).catch((err) => {
         console.log(`failed to update: ${err}`)
       })
