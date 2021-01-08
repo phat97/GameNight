@@ -7,13 +7,16 @@ const indexRouter = require("./routes/index");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
-const mongooseURI = require("./config/config");
+let mongooseURI = require("./config/config");
 
+if (typeof mongooseURI !== 'string' || !mongooseURI instanceof String) {
+  mongooseURI = "demo";
+}
 
 //connecting to database
 mongoose.connect(mongooseURI, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
   if (err) {
-    return console.error(err);
+    console.error(err);
   } else {
     console.log("Connected to Database");
   }

@@ -15,12 +15,18 @@ exports.index = (req, res) => {
 exports.gameList = (req, res) => {
   const query = { _id: req.query.id }
   collection
-    .find(query).toArray((err, result) => {
+    .find(query, (err, data) => {
       if (err) {
-        console.log(err);
         res.status(400).send(`Cannot retreive data: ${err}`)
       } else {
-        res.status(200).send(result)
+        data.toArray((err, result) => {
+          if (err) {
+            console.log(err);
+            res.status(500).send(`toArray error: ${err}`)
+          } else {
+            res.status(200).send(result)
+          }
+        })
       }
     })
 };

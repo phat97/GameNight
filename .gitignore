@@ -95,3 +95,6 @@ typings/
 
 #database info
 config
+
+#build folder
+build

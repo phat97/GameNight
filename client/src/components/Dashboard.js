@@ -14,6 +14,7 @@ export const Dashboard = () => {
   const [formOpen, setFormOpen] = useState(false);
   const [games, setGames] = useState([]);
   const [userId, setUserId] = "1";
+  const [localData, setLocalData] = useState(false);
 
 
   /* Hooks */
@@ -21,11 +22,12 @@ export const Dashboard = () => {
   useEffect(() => {
     axios.get('/api/game/list?id=1')
       .then((res) => {
-        setGames(res.data[0].gamelist)
+        setGames(res.data[0].gamelist);
       }).catch((err) => {
         console.log(err);
         console.log("Using sample_data");
         setGames(sample_data);
+        setLocalData(true);
       })
   }, [])
 
@@ -54,64 +56,95 @@ export const Dashboard = () => {
 
   /* CRUD Functions */
   const createNewGameDetail = (data) => {
-    const formData = new FormData();
-    formData.append("image", data.imageURI);
-    formData.append("data", JSON.stringify({ _id: userId, gamelist: data }));
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data"
+    if (localData) {
+      setGames((games) => [...games, data]);
+    } else {
+      const formData = new FormData();
+      formData.append("image", data.imageURI);
+      formData.append("data", JSON.stringify({ _id: userId, gamelist: data }));
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data"
+        }
       }
+      axios.post(`/api/game/list/add`, formData, config)
+        .then((res) => {
+          data.imageURI = res.data;
+          setGames((games) => [...games, data]);
+        }).catch((err) => {
+          console.log(`Failed to add: ${err}`)
+        })
     }
-    axios.post(`/api/game/list/add`, formData, config)
-      .then((res) => {
-        data.imageURI = res.data;
-        setGames((games) => [...games, data]);
-      }).catch((err) => {
-        console.log(`Failed to add: ${err}`)
-      })
+
   };
 
   const updateGameDetail = (data) => {
-    const formData = new FormData();
-    formData.append("image", data.imageURI);
-    formData.append("data", JSON.stringify({ _id: userId, gamelist: data }));
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data"
+    if (localData) {
+      setGames(
+        games.map((game) => {
+          if (game._gameId === data._gameId) {
+            return Object.assign({}, game, {
+              title: data.title,
+              type: data.type,
+              imageURI: "/images/default.jpg",
+              name: data.name,
+              own: data.own,
+              cost: data.cost,
+              date: data.date,
+              players: data.players,
+            });
+          } else {
+            return game;
+          }
+        })
+      );
+    } else {
+      const formData = new FormData();
+      formData.append("image", data.imageURI);
+      formData.append("data", JSON.stringify({ _id: userId, gamelist: data }));
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data"
+        }
       }
+      axios.put(`/api/game/list/update`, formData, config)
+        .then((res) => {
+          setGames(
+            games.map((game) => {
+              if (game._gameId === data._gameId) {
+                return Object.assign({}, game, {
+                  title: data.title,
+                  type: data.type,
+                  imageURI: res.data,
+                  name: data.name,
+                  own: data.own,
+                  cost: data.cost,
+                  date: data.date,
+                  players: data.players,
+                });
+              } else {
+                return game;
+              }
+            })
+          );
+        }).catch((err) => {
+          console.log(`failed to update: ${err}`)
+        })
     }
-    axios.put(`/api/game/list/update`, formData, config)
-      .then((res) => {
-        setGames(
-          games.map((game) => {
-            if (game._gameId === data._gameId) {
-              return Object.assign({}, game, {
-                title: data.title,
-                type: data.type,
-                imageURI: res.data,
-                name: data.name,
-                own: data.own,
-                cost: data.cost,
-                date: data.date,
-                players: data.players,
-              });
-            } else {
-              return game;
-            }
-          })
-        );
-      }).catch((err) => {
-        console.log(`failed to update: ${err}`)
-      })
+
   };
 
   const deleteGameDetail = (id) => {
-    axios.delete(`/api/game/list/delete?id=${userId}&gameid=${id}`)
-      .then((res) => {
-        setGames(games.filter((game) => game._gameId !== id));
-      }).catch((err) => {
-        console.log(`Failed to delete: ${err}`)
-      })
+    if (localData) {
+      setGames(games.filter((game) => game._gameId !== id));
+    } else {
+      axios.delete(`/api/game/list/delete?id=${userId}&gameid=${id}`)
+        .then((res) => {
+          setGames(games.filter((game) => game._gameId !== id));
+        }).catch((err) => {
+          console.log(`Failed to delete: ${err}`)
+        })
+    }
   };
 
 
@@ -138,7 +171,7 @@ export const Dashboard = () => {
   return (
     <div>
       <header className="d-flex justify-content-center">
-        <h1 className="banner-title no-select">Game Night</h1>
+        <h1 className="banner-title no-select">Game Night {localData ? ": Using Sample Data" : ""}</h1>
       </header>
       <Filter sortData={sortData} />
       <GameList
