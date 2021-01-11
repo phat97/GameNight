@@ -27,7 +27,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server/bin/www",
     "dev": "webpack --mode development && nodemon server/bin/www",
     "devbuild": "webpack --mode development",
     "build": "webpack --mode production",
