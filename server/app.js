@@ -24,7 +24,7 @@ mongoose.connect(mongooseURI, { useNewUrlParser: true, useUnifiedTopology: true 
 
 const app = express();
 
-const BUILD_DIR = path.join(__dirname, "../build");
+const BUILD_DIR = path.join(__dirname, "../dist");
 
 app.use(logger("dev"));
 app.use(express.json());

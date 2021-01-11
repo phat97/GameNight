@@ -93,8 +93,5 @@ typings/
 # Generated types
 /types
 
-#database info
-config
-
 #build folder
 build
