@@ -7,12 +7,12 @@ const settings = require("../multer/Setting");
 const upload = multer({ storage: settings.storage, fileFilter: settings.filter }).single("image")
 
 // Home page
-exports.index = (req, res) => {
+module.exports.index = (req, res) => {
   res.sendFile(path.join(__dirname + "../build", "index.html")); // Load react page without data
 };
 
 // Get list of all Games
-exports.gameList = (req, res) => {
+module.exports.gameList = (req, res) => {
   const query = { _id: req.query.id }
   collection
     .find(query, (err, data) => {
@@ -33,7 +33,7 @@ exports.gameList = (req, res) => {
 
 
 // File upload
-exports.fileUpdate = (req, res, next) => {
+module.exports.fileUpdate = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {
       console.log(err);
@@ -53,7 +53,7 @@ exports.fileUpdate = (req, res, next) => {
 }
 
 // Add to list
-exports.gameAdd = (req, res) => {
+module.exports.gameAdd = (req, res) => {
 
   const data = JSON.parse(req.body.data);
   const game_data = data.gamelist;
@@ -77,7 +77,7 @@ exports.gameAdd = (req, res) => {
 
 
 // Delete item
-exports.gameDelete = (req, res) => {
+module.exports.gameDelete = (req, res) => {
   const query = { _id: req.query.id }
   const update = { $pull: { "gamelist": { _gameId: req.query.gameid } } }
 
@@ -89,7 +89,7 @@ exports.gameDelete = (req, res) => {
 };
 
 // Update item
-exports.gameUpdate = (req, res) => {
+module.exports.gameUpdate = (req, res) => {
   const game_data = JSON.parse(req.body.data);
 
   game_data.gamelist.imageURI = res.locals.filepath;
