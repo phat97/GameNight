@@ -47,9 +47,6 @@ exports.fileUpdate = (req, res, next) => {
       } else {
         res.locals.filepathExist = false;
       }
-
-
-
       next();
     }
   })
