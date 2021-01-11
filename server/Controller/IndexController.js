@@ -6,100 +6,199 @@ const settings = require("../multer/Setting");
 
 const upload = multer({ storage: settings.storage, fileFilter: settings.filter }).single("image")
 
-// Home page
-module.exports.index = (req, res) => {
-  res.sendFile(path.join(__dirname + "../build", "index.html")); // Load react page without data
-};
 
-// Get list of all Games
-module.exports.gameList = (req, res) => {
-  const query = { _id: req.query.id }
-  collection
-    .find(query, (err, data) => {
+module.exports = {
+  // Home page
+  index: (req, res) => {
+    res.sendFile(path.join(__dirname + "../build", "index.html")); // Load react page without data
+  },
+
+  // Get list of all Games
+  gameList: (req, res) => {
+    const query = { _id: req.query.id }
+    collection
+      .find(query, (err, data) => {
+        if (err) {
+          res.status(400).send(`Cannot retreive data: ${err}`)
+        } else {
+          data.toArray((err, result) => {
+            if (err) {
+              console.log(err);
+              res.status(500).send(`toArray error: ${err}`)
+            } else {
+              res.status(200).send(result)
+            }
+          })
+        }
+      })
+  },
+
+  // File upload
+  fileUpdate: (req, res, next) => {
+    upload(req, res, (err) => {
       if (err) {
-        res.status(400).send(`Cannot retreive data: ${err}`)
+        console.log(err);
+        res.send(500)
       } else {
-        data.toArray((err, result) => {
-          if (err) {
-            console.log(err);
-            res.status(500).send(`toArray error: ${err}`)
-          } else {
-            res.status(200).send(result)
-          }
-        })
+        if (req.file) {
+          res.locals.filepathExist = true;
+          let path = req.file.path;
+          let public_path = path.split("public");
+          res.locals.filepath = public_path[1].replace(/\\/g, "/");
+        } else {
+          res.locals.filepathExist = false;
+        }
+        next();
       }
     })
-};
+  },
 
+  // Add to list
+  gameAdd: (req, res) => {
 
-// File upload
-module.exports.fileUpdate = (req, res, next) => {
-  upload(req, res, (err) => {
-    if (err) {
-      console.log(err);
-      res.send(500)
-    } else {
-      if (req.file) {
-        res.locals.filepathExist = true;
-        let path = req.file.path;
-        let public_path = path.split("public");
-        res.locals.filepath = public_path[1].replace(/\\/g, "/");
-      } else {
-        res.locals.filepathExist = false;
-      }
-      next();
+    const data = JSON.parse(req.body.data);
+    const game_data = data.gamelist;
+    if (res.locals.filepathExist) {
+      game_data.imageURI = res.locals.filepath;
     }
-  })
+
+    const query = { _id: data._id };
+    const update = { $addToSet: { gamelist: game_data } }
+    const options = { upsert: true };
+
+    collection
+      .updateOne(query, update, options)
+      .then((result) => {
+        res.status(200).send(game_data.imageURI);
+      })
+      .catch((err) => {
+        res.status(500).send(`Failed to add: ${err}`);
+      });
+  },
+  // Delete item
+  gameDelete: (req, res) => {
+    const query = { _id: req.query.id }
+    const update = { $pull: { "gamelist": { _gameId: req.query.gameid } } }
+
+    collection.updateOne(query, update, false, true).then((result) => {
+      res.status(200).send("Successfully deleted");
+    }).catch((err) => {
+      res.status(500).send(`Failed to delete: ${err}`)
+    })
+  },
+  // Update item
+  gameUpdate: (req, res) => {
+    const game_data = JSON.parse(req.body.data);
+
+    game_data.gamelist.imageURI = res.locals.filepath;
+    console.log(game_data)
+    const query = { _id: game_data._id, "gamelist._gameId": game_data.gamelist._gameId }
+    const update = { $set: { "gamelist.$": game_data.gamelist } }
+
+    collection.updateOne(query, update).then((result) => {
+      res.status(200).send(game_data.gamelist.imageURI);
+    }).catch((err) => {
+      res.status(500).send(`Failed to update: ${err}`)
+    })
+  }
 }
 
-// Add to list
-module.exports.gameAdd = (req, res) => {
+// // Home page
+// module.exports.index = (req, res) => {
+//   res.sendFile(path.join(__dirname + "../build", "index.html")); // Load react page without data
+// };
 
-  const data = JSON.parse(req.body.data);
-  const game_data = data.gamelist;
-  if (res.locals.filepathExist) {
-    game_data.imageURI = res.locals.filepath;
-  }
+// // Get list of all Games
+// module.exports.gameList = (req, res) => {
+//   const query = { _id: req.query.id }
+//   collection
+//     .find(query, (err, data) => {
+//       if (err) {
+//         res.status(400).send(`Cannot retreive data: ${err}`)
+//       } else {
+//         data.toArray((err, result) => {
+//           if (err) {
+//             console.log(err);
+//             res.status(500).send(`toArray error: ${err}`)
+//           } else {
+//             res.status(200).send(result)
+//           }
+//         })
+//       }
+//     })
+// };
 
-  const query = { _id: data._id };
-  const update = { $addToSet: { gamelist: game_data } }
-  const options = { upsert: true };
 
-  collection
-    .updateOne(query, update, options)
-    .then((result) => {
-      res.status(200).send(game_data.imageURI);
-    })
-    .catch((err) => {
-      res.status(500).send(`Failed to add: ${err}`);
-    });
-};
+// // File upload
+// module.exports.fileUpdate = (req, res, next) => {
+//   upload(req, res, (err) => {
+//     if (err) {
+//       console.log(err);
+//       res.send(500)
+//     } else {
+//       if (req.file) {
+//         res.locals.filepathExist = true;
+//         let path = req.file.path;
+//         let public_path = path.split("public");
+//         res.locals.filepath = public_path[1].replace(/\\/g, "/");
+//       } else {
+//         res.locals.filepathExist = false;
+//       }
+//       next();
+//     }
+//   })
+// }
+
+// // Add to list
+// module.exports.gameAdd = (req, res) => {
+
+//   const data = JSON.parse(req.body.data);
+//   const game_data = data.gamelist;
+//   if (res.locals.filepathExist) {
+//     game_data.imageURI = res.locals.filepath;
+//   }
+
+//   const query = { _id: data._id };
+//   const update = { $addToSet: { gamelist: game_data } }
+//   const options = { upsert: true };
+
+//   collection
+//     .updateOne(query, update, options)
+//     .then((result) => {
+//       res.status(200).send(game_data.imageURI);
+//     })
+//     .catch((err) => {
+//       res.status(500).send(`Failed to add: ${err}`);
+//     });
+// };
 
 
-// Delete item
-module.exports.gameDelete = (req, res) => {
-  const query = { _id: req.query.id }
-  const update = { $pull: { "gamelist": { _gameId: req.query.gameid } } }
+// // Delete item
+// module.exports.gameDelete = (req, res) => {
+//   const query = { _id: req.query.id }
+//   const update = { $pull: { "gamelist": { _gameId: req.query.gameid } } }
 
-  collection.updateOne(query, update, false, true).then((result) => {
-    res.status(200).send("Successfully deleted");
-  }).catch((err) => {
-    res.status(500).send(`Failed to delete: ${err}`)
-  })
-};
+//   collection.updateOne(query, update, false, true).then((result) => {
+//     res.status(200).send("Successfully deleted");
+//   }).catch((err) => {
+//     res.status(500).send(`Failed to delete: ${err}`)
+//   })
+// };
 
-// Update item
-module.exports.gameUpdate = (req, res) => {
-  const game_data = JSON.parse(req.body.data);
+// // Update item
+// module.exports.gameUpdate = (req, res) => {
+//   const game_data = JSON.parse(req.body.data);
 
-  game_data.gamelist.imageURI = res.locals.filepath;
-  console.log(game_data)
-  const query = { _id: game_data._id, "gamelist._gameId": game_data.gamelist._gameId }
-  const update = { $set: { "gamelist.$": game_data.gamelist } }
+//   game_data.gamelist.imageURI = res.locals.filepath;
+//   console.log(game_data)
+//   const query = { _id: game_data._id, "gamelist._gameId": game_data.gamelist._gameId }
+//   const update = { $set: { "gamelist.$": game_data.gamelist } }
 
-  collection.updateOne(query, update).then((result) => {
-    res.status(200).send(game_data.gamelist.imageURI);
-  }).catch((err) => {
-    res.status(500).send(`Failed to update: ${err}`)
-  })
-};
+//   collection.updateOne(query, update).then((result) => {
+//     res.status(200).send(game_data.gamelist.imageURI);
+//   }).catch((err) => {
+//     res.status(500).send(`Failed to update: ${err}`)
+//   })
+// };
+
+
