@@ -38,11 +38,12 @@ module.exports = {
     upload(req, res, (err) => {
       if (err) {
         console.log(err);
-        res.send(500)
+        res.sendStatus(err)
       } else {
         if (req.file) {
           res.locals.filepathExist = true;
           let path = req.file.path;
+          console.log(path);
           let public_path = path.split("public");
           res.locals.filepath = public_path[1].replace(/\\/g, "/");
         } else {
