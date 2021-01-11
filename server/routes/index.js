@@ -1,21 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const IndexController = require("../controller/indexController");
+//const IndexController = require("../controller/indexController");
 
 
-// GET home page
-router.get("/", IndexController.index);
+const path = require("path");
+router.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname + "../build", "index.html")); // Load react page without data
+});
 
-// GET all game list
-router.get("/api/game/list", IndexController.gameList);
+// // GET home page
+// router.get("/", IndexController.index);
 
-// POST add game list
-router.post("/api/game/list/add", IndexController.fileUpdate, IndexController.gameAdd)
+// // GET all game list
+// router.get("/api/game/list", IndexController.gameList);
 
-// DELETE delte game list
-router.delete("/api/game/list/delete", IndexController.gameDelete);
+// // POST add game list
+// router.post("/api/game/list/add", IndexController.fileUpdate, IndexController.gameAdd)
 
-// PUT update game list
-router.put("/api/game/list/update", IndexController.fileUpdate, IndexController.gameUpdate);
+// // DELETE delte game list
+// router.delete("/api/game/list/delete", IndexController.gameDelete);
+
+// // PUT update game list
+// router.put("/api/game/list/update", IndexController.fileUpdate, IndexController.gameUpdate);
 
 module.exports = router;
