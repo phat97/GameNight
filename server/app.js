@@ -19,8 +19,6 @@ mongoose.connect(mongooseURI, { useNewUrlParser: true, useUnifiedTopology: true 
     console.error(err);
   } else {
     console.log("Connected to Database");
-    console.log(`THIS IS THE FILE PATH??? ${process.cwd()}`);
-    console.log(`app.js located in ${__dirname}`);
   }
 });
 

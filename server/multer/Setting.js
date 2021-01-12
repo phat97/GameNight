@@ -2,7 +2,13 @@ const multer = require('multer')
 
 exports.storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, `${process.cwd()}\\server\\public\\images`)
+        let uploadPath;
+        if (process.platform === "win32" || process.platform === "win64") {
+            uploadPath = `${process.cwd()}\\server\\public\\images`
+        } else {
+            uploadPath = `${process.cwd()}/server/public/images`
+        }
+        cb(null, uploadPath)
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`)
